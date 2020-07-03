@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="goxygen" />
+$for(author-meta)$
+  <meta name="author" content="$author-meta$" />
+$endfor$
+$if(date-meta)$
+  <meta name="dcterms.date" content="$date-meta$" />
+$endif$
+$if(keywords)$
+  <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$" />
+$endif$
+<title>$modeltitle$ – $pagetitle$</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href='https://fonts.googleapis.com/css?family=Abel|Allerta Stencil|Roboto Mono' rel='stylesheet'>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+<script type="text/x-mathjax-config">
+                    MathJax.Hub.Config({
+                      CommonHTML: { linebreaks: { automatic: true } },
+                      "HTML-CSS": { linebreaks: { automatic: true } },
+                             SVG: { linebreaks: { automatic: true } }
+                    });
+</script>
+</head>
+<body>
+<div class="header">
+    <div class="headerimg">
+      $if(logo)$$if(mainpage)$<a href="$mainpage$">$endif$<img id="logo" src="images/logo.png" height="100" alt="model logo" />$if(mainpage)$</a>$endif$$endif$
+    </div>
+    <div class="headertext">
+      <h1 id="mainheadertitle">$if(repo)$<a href="$repo$">$endif$$modeltitle$$if(repo)$</a>$endif$</h1>
+      $if(modelversion)$<h3>$modelversion$</h3>$endif$
+      <div class="by">created with <a href="https://github.com/pik-piam/goxygen">goxygen</a> $goxygenversion$</div>
+    </div>
+</div>
+
+<div class="pagenav" id="pagenav">
+  $for(pagenav)$
+  <a href=$pagenav$</a>
+  $endfor$
+  <div class="dropdown">
+   <button class="dropbtn">$pagetitle$
+     <i class="fa fa-caret-down"></i>
+   </button>
+   <div id="mainnav" class="dropdown-content">
+   $mainnav$
+   </div>
+  </div>
+  <div class="dropdown">
+   <button class="dropbtn">Contents
+     <i class="fa fa-caret-down"></i>
+   </button>
+   <div class="dropdown-content">
+   $toc$
+   </div>
+  </div>
+</div>
+
+$for(include-before)$
+$include-before$
+$endfor$
+$body$
+$for(include-after)$
+$include-after$
+$endfor$
+<script>
+window.onscroll = function() {myFunction()};
+
+var navbar = document.getElementById("pagenav");
+var sticky = navbar.offsetTop;
+
+function myFunction() {
+  var currentScrollPos = window.pageYOffset;
+  if (window.pageYOffset >= sticky) {
+    if (prevScrollpos > currentScrollPos) {
+      document.getElementById("pagenav").style.top = "0";
+      document.getElementById("pagenav").style.position = "fixed";
+    } else {
+      document.getElementById("pagenav").style.top = "-50px";
+    }
+  } else {
+      document.getElementById("pagenav").style.position = "static";
+  }
+  prevScrollpos = currentScrollPos;
+}
+</script>
+</body>
+</html>
+

@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="David Klein, Jan Philipp Dietrich" />
+
+
+<title>Creating GAMS model documentations with goxygen</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Creating GAMS model documentations with goxygen</h1>
+<h4 class="author">David Klein, Jan Philipp Dietrich</h4>
+<h4 class="date">26.06.2020</h4>
+
+
+
+<div id="purpose-and-functionality" class="section level2">
+<h2>Purpose and Functionality</h2>
+<p>Goxygen provides tools to extract a model documentation from GAMS code, including comments, code, and even GAMS equations, the latter of which are converted into latex code. This allows having GAMS code and explanatory text side by side in the same gms files, which makes it easier to keep the comments up to date with the code. The goxygen output is returned in HTML, Markdown, and PDF format.</p>
+<p>In order to use the package you need to install pandoc and pandoc-citeproc first (<a href="https://pandoc.org/" class="uri">https://pandoc.org/</a>), if it is not already available on your system.</p>
+<p>Goxygen can extract the documentation from plain GAMS code (see <a href="#plain">plain example</a>) or from GAMS models that have a modularized structure as described in <span class="citation">Dietrich et al. (<a href="#ref-dietrich_magpie4">2019</a>)</span> (see <a href="#modular">modular example</a>).</p>
+<p>Before testing please switch to a folder in which the test models can be copied and the documentation can be extracted (e.g. a temporary directory).</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">setwd</span>(<span class="kw">tempdir</span>())</a></code></pre></div>
+</div>
+<div id="plain" class="section level2">
+<h2>Running goxygen on plain GAMS code</h2>
+<p>We take the GAMS code example from this package and save it to <code>dummymodel-plain</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># copy the folder containing a simple dummy model with goxygen comments </span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">file.copy</span>(<span class="dt">from =</span> <span class="kw">system.file</span>(<span class="st">&quot;dummymodel-plain&quot;</span>,<span class="dt">package=</span><span class="st">&quot;goxygen&quot;</span>), <span class="dt">to =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>and execute <code>goxygen</code> on this GAMS file to produce the documentation in HTML as well as PDF format.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">goxygen<span class="op">::</span><span class="kw">goxygen</span>(<span class="dt">path =</span> <span class="st">&quot;dummymodel-plain/&quot;</span>, <span class="dt">cff =</span> <span class="st">&quot;HOWTOCITE.cff&quot;</span>)</a></code></pre></div>
+<p>goxygen now searches the code for all lines starting with the goxygen tag <code>*'</code>, interpretes the goxygen identifiers, and compiles the documentation into the format specified (html, tex, pdf). Please find the goxygen output in the folder <code>dummymodel-plain/doc</code>.</p>
+</div>
+<div id="goxygen-syntax" class="section level2">
+<h2>Goxygen syntax</h2>
+<p>The short example GAMS file contains all identifiers available in goxygen. The resulting document starts with a table of contents.</p>
+<ul>
+<li><p><code>@title</code> Adds the heading with the title to the documentation.</p></li>
+<li><p><code>@description</code> Contains the text describing the model. Start a new paragraph by adding a blank line that starts with <code>*'</code>.</p></li>
+<li><p><code>@authors</code> List the authors of the model here.</p></li>
+<li><p><code>@limitations</code> Explain the limitation of the model.</p></li>
+<li><p><code>@code</code> All following lines of the model code will be displayed in the documentation output as code blocks. Lines starting with <code>*'</code> will be displayed as regular text.</p></li>
+<li><p><code>@equations</code> starts the equation section where goxygen converts GAMS equations into LaTeX code so that they are displayed nicely in the output.</p></li>
+<li><p><code>@stop</code> Everything following will be ignored until the next identifier is mentioned again. In this case the following code is not included in the documentation output:</p>
+<pre><code>*' Even goxygen comments are ignored.
+display v01_intern.l;</code></pre>
+<p>until the <code>@code</code> tag resumes the documentation.</p></li>
+</ul>
+</div>
+<div id="further-features" class="section level2">
+<h2>Further features</h2>
+<ul>
+<li><p><strong>Markdown syntax:</strong> Since goxygen translates the code comments into Markdown before creating the other output formats from it, it is possible to use Markdown syntax in your goxygen comments. The markdown output itself is also stored in the documentation folder in the subfolder <code>markdown</code>.</p></li>
+<li><p><strong>Including images:</strong> For example, in <code>1_equations.gms</code> we included an image using Markdown syntax.</p></li>
+<li><p><strong>Logo:</strong> Any file in your model’s main folder named <code>logo.png</code> (or other image formats) will be included in the documentation as model logo.</p></li>
+<li><p><strong>References:</strong> To add literature references to the documentation please save a bibtex file <code>literature.bib</code> in the main folder of the model and link the references using <code>@&lt;id&gt;</code> in your goxygen comments.<code>&lt;id&gt;</code> stands for the name of the corresponding bibtex entry.</p></li>
+<li><p><strong>CITATION.cff:</strong> Add meta information to your model, such as authors, name of the model, license etc. by adding a <code>CITATION.cff</code> file to your model’s main folder. This helps others to cite your model correctly and goxygen includes this meta information in the documentation (e.g. it will extract the model title and list of model authors from that file). If you use a different filename than <code>CITATION.cff</code> please provide the name <code>cff = MYCITATION.cff</code>.</p></li>
+<li><p><strong>Internal links:</strong> If you have <a href="#modular">modular code</a> and want to link a module in the text use square brackets and the name of the module, e.g. <code>\[007_bond\]</code>. In case of <a href="#plain">plain code</a> use the name of the gms file you want to link, e.g. <code>\[equations\]</code>. The only exception is the file specified as main file of the model, which will always be referred to as <code>\[index\]</code>.</p></li>
+</ul>
+</div>
+<div id="modular" class="section level2">
+<h2>Running goxygen on modularized GAMS code</h2>
+<p>This was a simple example of a GAMS model in a single file with a plain structure. As soon as model and code get more complex it is helpful to structure the model in a modular way, for example as described by <span class="citation">Dietrich et al. (<a href="#ref-dietrich_magpie4">2019</a>)</span>. This modular structure emulates in GAMS what would be functions and environments in other programming languages, since GAMS does not offer this feature. The separation is achieved via structural separation of the code and naming conventions. A module comprises the code of a content area that can be clearly separated from other content areas topic-wise and interacts with other modules only via clearly defined interfaces. The modular structure is clearly visible in the code through the naming convention mentioned and through the folder and file structure.</p>
+<p>Goxygen is tailored to extract the documentation from this modular structure and to compile it to a clearly arranged documentation. Goxygen identifies modules and their interfaces, generates a interface plots that depict the interactions between modules, and lists the inputs and outputs of modules. For each module goxygen creates a new chapter in the documentation. We will demonstrate this using the simple example model from the <code>gms</code> package:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># copy all files and folders containing the modular dummy model</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">file.copy</span>(<span class="dt">from =</span> <span class="kw">system.file</span>(<span class="st">&quot;dummymodel&quot;</span>,<span class="dt">package=</span><span class="st">&quot;gms&quot;</span>), <span class="dt">to =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p>Now execute <code>goxygen</code> on the modular GAMS model:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">goxygen<span class="op">::</span><span class="kw">goxygen</span>(<span class="dt">path =</span> <span class="st">&quot;dummymodel/&quot;</span>, <span class="dt">cff =</span> <span class="st">&quot;HOWTOCITE.cff&quot;</span>)</a></code></pre></div>
+<p>Please find the goxygen output in the folder <code>dummymodel/doc</code>.</p>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2>References</h2>
+<div id="refs" class="references">
+<div id="ref-dietrich_magpie4">
+<p>Dietrich, J. P., B. L. Bodirsky, F. Humpenöder, I. Weindl, M. Stevanović, K. Karstens, U. Kreidenweis, et al. 2019. “MAgPIE 4 – a Modular Open-Source Framework for Modeling Global Land Systems.” <em>Geoscientific Model Development</em> 12 (4): 1299–1317. <a href="https://doi.org/10.5194/gmd-12-1299-2019">https://doi.org/10.5194/gmd-12-1299-2019</a>.</p>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
