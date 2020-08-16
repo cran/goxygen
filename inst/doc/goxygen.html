@@ -19,9 +19,9 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -31,14 +31,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -47,9 +49,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -308,31 +310,31 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h2>Purpose and Functionality</h2>
 <p>Goxygen provides tools to extract a model documentation from GAMS code, including comments, code, and even GAMS equations, the latter of which are converted into latex code. This allows having GAMS code and explanatory text side by side in the same gms files, which makes it easier to keep the comments up to date with the code. The goxygen output is returned in HTML, Markdown, and PDF format.</p>
 <p>In order to use the package you need to install pandoc and pandoc-citeproc first (<a href="https://pandoc.org/" class="uri">https://pandoc.org/</a>), if it is not already available on your system.</p>
-<p>Goxygen can extract the documentation from plain GAMS code (see <a href="#plain">plain example</a>) or from GAMS models that have a modularized structure as described in <span class="citation">Dietrich et al. (<a href="#ref-dietrich_magpie4">2019</a>)</span> (see <a href="#modular">modular example</a>).</p>
+<p>Goxygen can extract the documentation from plain GAMS code (see <a href="#plain">plain example</a>) or from GAMS models that have a modularized structure as described in <span class="citation">Dietrich et al. (<a href="#ref-dietrich_magpie4" role="doc-biblioref">2019</a>)</span> (see <a href="#modular">modular example</a>).</p>
 <p>Before testing please switch to a folder in which the test models can be copied and the documentation can be extracted (e.g. a temporary directory).</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">setwd</span>(<span class="kw">tempdir</span>())</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">setwd</span>(<span class="kw">tempdir</span>())</span></code></pre></div>
 </div>
 <div id="plain" class="section level2">
 <h2>Running goxygen on plain GAMS code</h2>
 <p>We take the GAMS code example from this package and save it to <code>dummymodel-plain</code>:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># copy the folder containing a simple dummy model with goxygen comments </span></a>
-<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">file.copy</span>(<span class="dt">from =</span> <span class="kw">system.file</span>(<span class="st">&quot;dummymodel-plain&quot;</span>,<span class="dt">package=</span><span class="st">&quot;goxygen&quot;</span>), <span class="dt">to =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># copy the folder containing a simple dummy model with goxygen comments </span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">file.copy</span>(<span class="dt">from =</span> <span class="kw">system.file</span>(<span class="st">&quot;dummymodel-plain&quot;</span>,<span class="dt">package=</span><span class="st">&quot;goxygen&quot;</span>), <span class="dt">to =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>and execute <code>goxygen</code> on this GAMS file to produce the documentation in HTML as well as PDF format.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">goxygen<span class="op">::</span><span class="kw">goxygen</span>(<span class="dt">path =</span> <span class="st">&quot;dummymodel-plain/&quot;</span>, <span class="dt">cff =</span> <span class="st">&quot;HOWTOCITE.cff&quot;</span>)</a></code></pre></div>
-<p>goxygen now searches the code for all lines starting with the goxygen tag <code>*'</code>, interpretes the goxygen identifiers, and compiles the documentation into the format specified (html, tex, pdf). Please find the goxygen output in the folder <code>dummymodel-plain/doc</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>goxygen<span class="op">::</span><span class="kw">goxygen</span>(<span class="dt">path =</span> <span class="st">&quot;dummymodel-plain/&quot;</span>, <span class="dt">cff =</span> <span class="st">&quot;HOWTOCITE.cff&quot;</span>)</span></code></pre></div>
+<p>goxygen now searches the code for all lines starting with the goxygen tag <code>*&#39;</code>, interpretes the goxygen identifiers, and compiles the documentation into the format specified (html, tex, pdf). Please find the goxygen output in the folder <code>dummymodel-plain/doc</code>.</p>
 </div>
 <div id="goxygen-syntax" class="section level2">
 <h2>Goxygen syntax</h2>
 <p>The short example GAMS file contains all identifiers available in goxygen. The resulting document starts with a table of contents.</p>
 <ul>
 <li><p><code>@title</code> Adds the heading with the title to the documentation.</p></li>
-<li><p><code>@description</code> Contains the text describing the model. Start a new paragraph by adding a blank line that starts with <code>*'</code>.</p></li>
+<li><p><code>@description</code> Contains the text describing the model. Start a new paragraph by adding a blank line that starts with <code>*&#39;</code>.</p></li>
 <li><p><code>@authors</code> List the authors of the model here.</p></li>
 <li><p><code>@limitations</code> Explain the limitation of the model.</p></li>
-<li><p><code>@code</code> All following lines of the model code will be displayed in the documentation output as code blocks. Lines starting with <code>*'</code> will be displayed as regular text.</p></li>
+<li><p><code>@code</code> All following lines of the model code will be displayed in the documentation output as code blocks. Lines starting with <code>*&#39;</code> will be displayed as regular text.</p></li>
 <li><p><code>@equations</code> starts the equation section where goxygen converts GAMS equations into LaTeX code so that they are displayed nicely in the output.</p></li>
 <li><p><code>@stop</code> Everything following will be ignored until the next identifier is mentioned again. In this case the following code is not included in the documentation output:</p>
-<pre><code>*' Even goxygen comments are ignored.
+<pre><code>*&#39; Even goxygen comments are ignored.
 display v01_intern.l;</code></pre>
 <p>until the <code>@code</code> tag resumes the documentation.</p></li>
 </ul>
@@ -345,17 +347,17 @@ display v01_intern.l;</code></pre>
 <li><p><strong>Logo:</strong> Any file in your model’s main folder named <code>logo.png</code> (or other image formats) will be included in the documentation as model logo.</p></li>
 <li><p><strong>References:</strong> To add literature references to the documentation please save a bibtex file <code>literature.bib</code> in the main folder of the model and link the references using <code>@&lt;id&gt;</code> in your goxygen comments.<code>&lt;id&gt;</code> stands for the name of the corresponding bibtex entry.</p></li>
 <li><p><strong>CITATION.cff:</strong> Add meta information to your model, such as authors, name of the model, license etc. by adding a <code>CITATION.cff</code> file to your model’s main folder. This helps others to cite your model correctly and goxygen includes this meta information in the documentation (e.g. it will extract the model title and list of model authors from that file). If you use a different filename than <code>CITATION.cff</code> please provide the name <code>cff = MYCITATION.cff</code>.</p></li>
-<li><p><strong>Internal links:</strong> If you have <a href="#modular">modular code</a> and want to link a module in the text use square brackets and the name of the module, e.g. <code>\[007_bond\]</code>. In case of <a href="#plain">plain code</a> use the name of the gms file you want to link, e.g. <code>\[equations\]</code>. The only exception is the file specified as main file of the model, which will always be referred to as <code>\[index\]</code>.</p></li>
+<li><p><strong>Internal links:</strong> If you have <a href="#modular">modular code</a> and want to link a module in the text use square brackets and the name of the module, e.g. <code>\[007_bond\]</code>. In case of <a href="#plain">plain code</a> use the name of the gms file you want to link, e.g. <code>\[equations\]</code>. The only exception is the file specified as main file of the model, which will always be referred to as <code>\[index\]</code>.</p></li>
 </ul>
 </div>
 <div id="modular" class="section level2">
 <h2>Running goxygen on modularized GAMS code</h2>
-<p>This was a simple example of a GAMS model in a single file with a plain structure. As soon as model and code get more complex it is helpful to structure the model in a modular way, for example as described by <span class="citation">Dietrich et al. (<a href="#ref-dietrich_magpie4">2019</a>)</span>. This modular structure emulates in GAMS what would be functions and environments in other programming languages, since GAMS does not offer this feature. The separation is achieved via structural separation of the code and naming conventions. A module comprises the code of a content area that can be clearly separated from other content areas topic-wise and interacts with other modules only via clearly defined interfaces. The modular structure is clearly visible in the code through the naming convention mentioned and through the folder and file structure.</p>
+<p>This was a simple example of a GAMS model in a single file with a plain structure. As soon as model and code get more complex it is helpful to structure the model in a modular way, for example as described by <span class="citation">Dietrich et al. (<a href="#ref-dietrich_magpie4" role="doc-biblioref">2019</a>)</span>. This modular structure emulates in GAMS what would be functions and environments in other programming languages, since GAMS does not offer this feature. The separation is achieved via structural separation of the code and naming conventions. A module comprises the code of a content area that can be clearly separated from other content areas topic-wise and interacts with other modules only via clearly defined interfaces. The modular structure is clearly visible in the code through the naming convention mentioned and through the folder and file structure.</p>
 <p>Goxygen is tailored to extract the documentation from this modular structure and to compile it to a clearly arranged documentation. Goxygen identifies modules and their interfaces, generates a interface plots that depict the interactions between modules, and lists the inputs and outputs of modules. For each module goxygen creates a new chapter in the documentation. We will demonstrate this using the simple example model from the <code>gms</code> package:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># copy all files and folders containing the modular dummy model</span></a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">file.copy</span>(<span class="dt">from =</span> <span class="kw">system.file</span>(<span class="st">&quot;dummymodel&quot;</span>,<span class="dt">package=</span><span class="st">&quot;gms&quot;</span>), <span class="dt">to =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># copy all files and folders containing the modular dummy model</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="kw">file.copy</span>(<span class="dt">from =</span> <span class="kw">system.file</span>(<span class="st">&quot;dummymodel&quot;</span>,<span class="dt">package=</span><span class="st">&quot;gms&quot;</span>), <span class="dt">to =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">recursive =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
 <p>Now execute <code>goxygen</code> on the modular GAMS model:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">goxygen<span class="op">::</span><span class="kw">goxygen</span>(<span class="dt">path =</span> <span class="st">&quot;dummymodel/&quot;</span>, <span class="dt">cff =</span> <span class="st">&quot;HOWTOCITE.cff&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>goxygen<span class="op">::</span><span class="kw">goxygen</span>(<span class="dt">path =</span> <span class="st">&quot;dummymodel/&quot;</span>, <span class="dt">cff =</span> <span class="st">&quot;HOWTOCITE.cff&quot;</span>)</span></code></pre></div>
 <p>Please find the goxygen output in the folder <code>dummymodel/doc</code>.</p>
 </div>
 <div id="references" class="section level2 unnumbered">

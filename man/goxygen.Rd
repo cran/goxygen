@@ -73,9 +73,12 @@ you can use the syntax \code{@<id>} in which "<id>" stands for the identifier gi
 corresponding bibtex entry.
 }
 \examples{
-# run goxygen for dummy model and store documentation as HTML in a temporary directory
-docfolder <- paste0(tempdir(),"/doc")
-goxygen(system.file("dummymodel",package="gms"),  docfolder=docfolder, output="html")
+# make sure that pandoc is available
+if(check_pandoc()) {
+  # run goxygen for dummy model and store documentation as HTML in a temporary directory
+  docfolder <- paste0(tempdir(),"/doc")
+  goxygen(system.file("dummymodel",package="gms"),  docfolder=docfolder, output="html")
+}
 }
 \seealso{
 \code{\link{codeCheck}},\code{\link[gms]{interfaceplot}}

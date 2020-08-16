@@ -1,8 +1,8 @@
 Package: goxygen
 Type: Package
 Title: In-Code Documentation for 'GAMS'
-Version: 1.0.2
-Date: 2020-06-29
+Version: 1.0.3
+Date: 2020-08-11
 Authors@R: c(person("Jan Philipp", "Dietrich", email = "dietrich@pik-potsdam.de", role = c("aut","cre")),
              person("Kristine", "Karstens", email = "karstens@pik-potsdam.de", role = "aut"),
              person("David", "Klein", email = "dklein@pik-potsdam.de", role = "aut"),
@@ -21,11 +21,11 @@ RoxygenNote: 7.1.0
 Suggests: testthat, knitr, rmarkdown
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2020-07-02 10:05:29 UTC; dietrich
+Packaged: 2020-08-11 12:10:38 UTC; dietrich
 Author: Jan Philipp Dietrich [aut, cre],
   Kristine Karstens [aut],
   David Klein [aut],
   Lavinia Baumstark [aut]
 Maintainer: Jan Philipp Dietrich <dietrich@pik-potsdam.de>
 Repository: CRAN
-Date/Publication: 2020-07-03 14:40:03 UTC
+Date/Publication: 2020-08-16 14:40:03 UTC

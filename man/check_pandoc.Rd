@@ -4,7 +4,13 @@
 \alias{check_pandoc}
 \title{check_pandoc}
 \usage{
-check_pandoc()
+check_pandoc(error = FALSE)
+}
+\arguments{
+\item{error}{boolean indicating whether function should throw an error in case of missing pandoc or return a boolean FALSE.}
+}
+\value{
+boolean indicating whether pandoc is available or not.
 }
 \description{
 Support function which checks pandoc availability and stops with an error in case
