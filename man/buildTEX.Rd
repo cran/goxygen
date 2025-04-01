@@ -10,7 +10,9 @@ buildTEX(
   literature = "literature.bib",
   citation = "../CITATION.cff",
   supplementary = NULL,
-  pdf = TRUE
+  pdf = TRUE,
+  style = "classic",
+  templatefolder = ".."
 )
 }
 \arguments{
@@ -27,6 +29,14 @@ if file does not exist)}
 (e.g. an images subdirectory with figures to be shown in the documents)}
 
 \item{pdf}{boolean which specifies whether pdf file should be generated from tex}
+
+\item{style}{visualization style to be used for the Latex/PDF creation. Currently only "classic" style is 
+available. Ignored for outputs other than Latex/PDF. Can be extended by additional templates stored in the
+\code{templatefolder} in the format \code{<style>.latex}. Classic template 
+\code{system.file("templates","classic.latex",package="goxygen")} can serve as a starting point for own 
+templates.}
+
+\item{templatefolder}{Folder in which goxygen will search for template files in addition to the pre-installed ones.}
 }
 \description{
 Converts a folder with markdown files and a corresponding literature library 

@@ -1,8 +1,8 @@
 # In-Code Documentation for 'GAMS'
 
-R package **goxygen**, version **1.0.3**
+R package **goxygen**, version **1.4.5**
 
-[![Travis build status](https://travis-ci.com/pik-piam/goxygen.svg?branch=master)](https://travis-ci.com/pik-piam/goxygen) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1411404.svg)](https://doi.org/10.5281/zenodo.1411404) [![codecov](https://codecov.io/gh/pik-piam/goxygen/branch/master/graph/badge.svg)](https://codecov.io/gh/pik-piam/goxygen)
+[![CRAN status](https://www.r-pkg.org/badges/version/goxygen)](https://cran.r-project.org/package=goxygen) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1411404.svg)](https://doi.org/10.5281/zenodo.1411404) [![R build status](https://github.com/pik-piam/goxygen/workflows/check/badge.svg)](https://github.com/pik-piam/goxygen/actions) [![codecov](https://codecov.io/gh/pik-piam/goxygen/branch/master/graph/badge.svg)](https://app.codecov.io/gh/pik-piam/goxygen) [![r-universe](https://pik-piam.r-universe.dev/badges/goxygen)](https://pik-piam.r-universe.dev/builds)
 
 ## Purpose and Functionality
 
@@ -48,21 +48,18 @@ In case of questions / problems please contact Jan Philipp Dietrich <dietrich@pi
 
 To cite package **goxygen** in publications use:
 
-Dietrich J, Karstens K, Klein D, Baumstark L (2020). _goxygen: In-Code Documentation
-for 'GAMS'_. doi: 10.5281/zenodo.1411404 (URL:
-https://doi.org/10.5281/zenodo.1411404), R package version 1.0.3, <URL:
-https://github.com/pik-piam/goxygen>.
+Dietrich J, Karstens K, Klein D, Baumstark L, Benke F (2025). "goxygen: In-Code Documentation for 'GAMS'." doi:10.5281/zenodo.1411404 <https://doi.org/10.5281/zenodo.1411404>, Version: 1.4.5, <https://github.com/pik-piam/goxygen>.
 
 A BibTeX entry for LaTeX users is
 
  ```latex
-@Manual{,
+@Misc{,
   title = {goxygen: In-Code Documentation for 'GAMS'},
-  author = {Jan Philipp Dietrich and Kristine Karstens and David Klein and Lavinia Baumstark},
-  year = {2020},
-  note = {R package version 1.0.3},
+  author = {Jan Philipp Dietrich and Kristine Karstens and David Klein and Lavinia Baumstark and Falk Benke},
   doi = {10.5281/zenodo.1411404},
+  date = {2025-04-01},
+  year = {2025},
   url = {https://github.com/pik-piam/goxygen},
+  note = {Version: 1.4.5},
 }
 ```
-

@@ -4,19 +4,21 @@
 \alias{extractDocumentation}
 \title{extractDocumentation}
 \usage{
-extractDocumentation(path, start_type = NULL, comment = "*'")
+extractDocumentation(path, startType = NULL, comment = "*'")
 }
 \arguments{
 \item{path}{path to the file(s) which should be evaluated}
 
-\item{start_type}{set type for first line of code. This can be useful
+\item{startType}{set type for first line of code. This can be useful
 to extract documentation even if no documentation type has been set (e.g
 reading equations.gms as type realization)}
 
 \item{comment}{comment chars used for documentation comments}
 }
 \value{
-a list of documentation pieces with type as name of each element
+a nested list of documentation pieces with type as name of each element.
+Each element contains two lists `content` containing the actual documentation
+and `cfg` containing optional attributes passed with the type.
 }
 \description{
 Extracts doxygen-like GAMS documentation. Entries are introduced with an @type at the beginning
@@ -24,10 +26,10 @@ of the line. In case of @realization also GAMS code is read and interpreted, in 
 only the specific documentation comment is evaluated.
 }
 \examples{
-mainfile <- paste0(system.file("dummymodel",package="gms"),"/main.gms")
-calcfile <- paste0(system.file("dummymodel",package="gms"),
+mainfile <- paste0(system.file("dummymodel", package = "gms"), "/main.gms")
+calcfile <- paste0(system.file("dummymodel", package = "gms"),
                            "/modules/02_crazymodule/complex/calculations.gms")
-# extracting information from the main file of the model                            
+# extracting information from the main file of the model
 extractDocumentation(mainfile)
 # extracting information from a file with some equations in it
 extractDocumentation(calcfile)
